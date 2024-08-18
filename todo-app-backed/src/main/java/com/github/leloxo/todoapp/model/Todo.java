@@ -1,9 +1,6 @@
 package com.github.leloxo.todoapp.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,8 +22,13 @@ public class Todo {
     private String description;
     private LocalDateTime creationDate;
     private LocalDateTime dueDate;
-    private String priority;
-    private String status;
+
+    @Enumerated(EnumType.STRING)
+    private Priority priority;
+
+    @Enumerated(EnumType.STRING)
+    private Status status;
+
     private String category;
     private LocalDateTime completionDate;
     private Set<String> tags;
