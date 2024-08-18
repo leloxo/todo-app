@@ -30,6 +30,14 @@ public class TodoService {
         }
     }
 
+    public Todo updateTodo(Long id, Todo todo) {
+        if (!todoRepository.existsById(id)) {
+            throw new TodoNotFoundException(id);
+        }
+        todo.setId(id);
+        return saveTodo(todo);
+    }
+
     public void deleteTodo(Long id) {
         if (!todoRepository.existsById(id)) {
             throw new TodoNotFoundException(id);
