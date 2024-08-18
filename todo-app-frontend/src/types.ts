@@ -4,9 +4,21 @@ export interface Todo {
     description: string;
     creationDate: string;
     dueDate: string;
-    priority: string;
-    status: string;
+    priority: Priority;
+    status: Status;
     category: string;
     completionDate: string;
     tags: string[];
+}
+
+export enum Priority {
+    LOW = 'LOW',
+    MEDIUM = 'MEDIUM',
+    HIGH = 'HIGH'
+}
+
+export enum Status {
+    TODO = 'TODO',
+    IN_PROGRESS = 'IN_PROGRESS',
+    DONE = 'DONE'
 }
