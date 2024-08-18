@@ -1,0 +1,23 @@
+.todo-item-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: gray;
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 16px;
+    border-radius: 5px;
+}
+
+.todo-item {
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 16px;
+    margin-bottom: 0;
+}
+
+.todo-title {
+    font-size: 1.5em;
+    margin-bottom: 8px;
+}
