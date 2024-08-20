@@ -1,0 +1,20 @@
+@use 'colors' as *;
+
+*,
+*::after,
+*::before {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+body {
+	font-family: 'Poppins', sans-serif;
+	width: 100%;
+	min-height: 100vh;
+	background-color: $background-1;
+}
+.container {
+	width: 90%;
+	max-width: 1200px;
+	margin: 0 auto;
+}
