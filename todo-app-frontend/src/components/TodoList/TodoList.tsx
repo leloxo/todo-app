@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Todo } from '../types';
-import { deleteTodo, getAllTodos } from '../api';
-import TodoItem from './TodoItem';
+import { Todo } from '../../types';
+import { deleteTodo, getAllTodos } from '../../api';
+import TodoItem from '../TodoItem/TodoItem';
 
 const TodoList: React.FC = () => {
     const [todos, setTodos] = useState<Todo[]>([]);
