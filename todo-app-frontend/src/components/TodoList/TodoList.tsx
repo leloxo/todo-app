@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Todo } from '../../types';
-import { deleteTodo, getAllTodos } from '../../api';
+import { Todo } from '../../types/types';
+import { deleteTodo, getAllTodos } from '../../utils/api';
 import TodoItem from '../TodoItem/TodoItem';
 
 const TodoList: React.FC = () => {

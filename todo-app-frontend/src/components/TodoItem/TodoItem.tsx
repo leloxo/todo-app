@@ -1,5 +1,5 @@
 import React from 'react';
-import { Todo } from '../../types';
+import { Todo } from '../../types/types';
 import styles from './TodoItem.module.scss';
 
 interface TodoItemProps {
@@ -11,7 +11,7 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, onDelete }) => {
     return (
         <div className={styles.todoItemContainer}>
             <div className={styles.todoItem}>
-                <p className={'todo-title'}>{todo.title}</p>
+                <p>{todo.title}</p>
                 <p>{todo.description}</p>
                 <p>Creation Date: {todo.creationDate} Due Date: {todo.dueDate}</p>
                 <p>Priority: {todo.priority}</p>
