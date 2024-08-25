@@ -1,32 +1,27 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Todo } from '../../types/types';
-import { deleteTodo, getAllTodos } from '../../utils/api';
 import TodoItem from '../TodoItem/TodoItem';
+import styles from 'todoList.module.scss'
+import { AppDispatch, RootState } from '../../store/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { editTodo, getTodos, removeTodo } from '../../slices/todoSlice';
 
 const TodoList: React.FC = () => {
-    const [todos, setTodos] = useState<Todo[]>([]);
-    const [loading, setLoading] = useState<boolean>(true);
-    const [error, setError] = useState<string | null>(null);
+    const dispatch: AppDispatch = useDispatch();
+    const todos = useSelector((state: RootState) => state.todo.items);
+    const loading = useSelector((state: RootState) => state.todo.loading);
+    const error = useSelector((state: RootState) => state.todo.error);
 
     useEffect(() => {
-        const fetchTodos = async () => {
-            try {
-                const todos = await getAllTodos();
-                setTodos(todos);
-            } catch (error: any) {
-                console.error('Error fetching todos: ', error);
-                setError(error.message || 'Failed to fetch todos.');
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchTodos();
+        dispatch(getTodos());
     }, []);
 
     const handleDelete = async (id: number) => {
-        await deleteTodo(id);
-        setTodos(todos.filter(todo => todo.id !== id));
+        dispatch(removeTodo(id));
+    };
+    
+    const handleEdit = async (todo: Todo) => {
+        dispatch(editTodo({ id: todo.id, todo }));
     };
 
     if (loading) return <div>Loading...</div>;
@@ -37,7 +32,14 @@ const TodoList: React.FC = () => {
             {todos.length === 0 ? (
                 <p>No todos available.</p>
             ) : (
-                todos.map(todo => <TodoItem key={todo.id} todo={todo} onDelete={handleDelete} />)
+                todos.map(todo => 
+                    <TodoItem 
+                        key={todo.id} 
+                        todo={todo} 
+                        onDelete={handleDelete} 
+                        onEdit={handleEdit} 
+                    />
+                )
             )}
         </div>
     );
