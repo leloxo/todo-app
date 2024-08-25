@@ -1,0 +1,13 @@
+@use './styles/colors' as *;
+
+.todoItemContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: $background-3;
+    padding: 16px;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 8px;
+}
