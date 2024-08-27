@@ -14,11 +14,13 @@ export interface Todo {
 export enum Priority {
     LOW = 'LOW',
     MEDIUM = 'MEDIUM',
-    HIGH = 'HIGH'
+    HIGH = 'HIGH',
+    DEFAULT = 'DEFAULT',
 }
 
 export enum Status {
     TODO = 'TODO',
     IN_PROGRESS = 'IN_PROGRESS',
-    DONE = 'DONE'
+    DONE = 'DONE',
+    DEFAULT = 'DEFAULT',
 }
