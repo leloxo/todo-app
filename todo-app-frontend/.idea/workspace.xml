@@ -1,15 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="28b78f28-d781-4ab9-8725-cb7964067068" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+    <list default="true" id="28b78f28-d781-4ab9-8725-cb7964067068" name="Changes" comment="Add DEFAULT value to Status and Priority enum">
+      <change afterPath="$PROJECT_DIR$/src/components/AppHeader/AppHeader.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/AppHeader/appHeader.module.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/app.module.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/TodoItem/TodoItem.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/TodoItem/TodoItem.module.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/TodoItem/TodoItem.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/TodoItem/TodoItem.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/TodoList/TodoList.module.css" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/TodoList/TodoList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/TodoList/TodoList.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/slices/todoSlice.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/slices/todoSlice.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/store.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/store.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/types/types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types/types.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,9 +25,15 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 2
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/leloxo/todo-app.git",
+    "accountId": "99698913-493c-482b-a589-ad43aa993d1d"
+  }
 }]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 2
+}</component>
   <component name="ProjectId" id="2l4aN76t3hulMwRHyBqlWXmMjku" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -33,8 +45,11 @@
     "git-widget-placeholder": "master",
     "last_opened_file_path": "C:/Users/Leo/CodeProjects/TodoApp/todo-app-frontend",
     "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.keymap",
     "ts.external.directory.path": "C:\\Users\\Leo\\CodeProjects\\TodoApp\\todo-app-frontend\\node_modules\\typescript\\lib",
     "vue.rearranger.settings.migration": "true"
   }
@@ -55,10 +70,52 @@
       <option name="presentableId" value="Default" />
       <updated>1724441761804</updated>
       <workItem from="1724441761979" duration="130000" />
+      <workItem from="1724691740436" duration="6967000" />
+      <workItem from="1724777367892" duration="8319000" />
     </task>
+    <task id="LOCAL-00001" summary="Add additional errorhandling in api.ts">
+      <option name="closed" value="true" />
+      <created>1724789018742</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1724789018742</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Add dateUtils.ts">
+      <option name="closed" value="true" />
+      <created>1724789069794</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1724789069794</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Add enumUtils.ts">
+      <option name="closed" value="true" />
+      <created>1724789080890</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1724789080890</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Add DEFAULT value to Status and Priority enum">
+      <option name="closed" value="true" />
+      <created>1724789157808</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1724789157808</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Add additional errorhandling in api.ts" />
+    <MESSAGE value="Add dateUtils.ts" />
+    <MESSAGE value="Add enumUtils.ts" />
+    <MESSAGE value="Add DEFAULT value to Status and Priority enum" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add DEFAULT value to Status and Priority enum" />
   </component>
 </project>
