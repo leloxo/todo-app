@@ -1,19 +1,26 @@
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import { getAllTodos, getTodoById, createTodo, updateTodo, deleteTodo } from '../utils/api';
-import { Todo } from '../types/types';
+import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
+import {createTodo, deleteTodo, getAllTodos, updateTodo} from '../utils/api';
+import {Todo} from '../types/types';
 
-interface TodoState {
+export interface TodoState {
     items: Todo[];
     loading: boolean;
     error: string | null;
+    navigation: NavigationState;
+}
+
+export enum NavigationState {
+    CREATE = 'CREATE',
+    EDIT = 'EDIT',
+    DEFAULT = 'DEFAULT',
 }
 
 const initialState: TodoState = {
     items: [],
     loading: false,
     error: null,
+    navigation: NavigationState.DEFAULT
 };
-
 
 export const getTodos = createAsyncThunk('todos/getTodos', async () => {
     return await getAllTodos();
@@ -35,7 +42,11 @@ export const removeTodo = createAsyncThunk('todos/removeTodos', async (id: numbe
 const todoSlice = createSlice({
     name: 'todo',
     initialState: initialState,
-    reducers: {},
+    reducers: {
+        setNavigationState: (state, action: PayloadAction<NavigationState>) => {
+            state.navigation = action.payload;
+        }
+    },
     extraReducers: (builder) => {
         builder
             .addCase(getTodos.pending, (state) => {
@@ -52,16 +63,30 @@ const todoSlice = createSlice({
             .addCase(addTodo.fulfilled, (state, action: PayloadAction<Todo>) => {
                 state.items.push(action.payload);
             })
+            .addCase(addTodo.rejected, (state, action) => {
+                state.error = action.error.message || 'Failed to add todo.';
+                state.loading = false;
+            })
             .addCase(editTodo.fulfilled, (state, action: PayloadAction<Todo>) => {
                 const index = state.items.findIndex((todo) => todo.id === action.payload.id);
                 if (index >= 0) {
                     state.items[index] = action.payload;
                 }
             })
+            .addCase(editTodo.rejected, (state, action) => {
+                state.error = action.error.message || 'Failed to edit todo.';
+                state.loading = false;
+            })
             .addCase(removeTodo.fulfilled, (state, action: PayloadAction<Number>) => {
                 state.items = state.items.filter((todo) => todo.id !== action.payload);
+            })
+            .addCase(removeTodo.rejected, (state, action) => {
+                state.error = action.error.message || 'Failed to delete todo.';
+                state.loading = false;
             });
     },
 });
+
+export const { setNavigationState } = todoSlice.actions;
 
 export default todoSlice.reducer;
