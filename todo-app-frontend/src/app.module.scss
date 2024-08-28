@@ -1,13 +1,16 @@
 @use './styles/colors' as *;
 
-.todoItemContainer {
+.appContentWrapper {
+    max-width: 750px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.todoListContainer {
     display: flex;
     justify-content: center;
-    align-items: center;
     background-color: $background-3;
-    padding: 16px;
-    width: fit-content;
-    margin-left: auto;
-    margin-right: auto;
+    padding: 0 16px;
     border-radius: 8px;
+    width: 100%;
 }
