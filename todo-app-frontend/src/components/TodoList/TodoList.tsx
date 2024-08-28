@@ -1,43 +1,52 @@
-import React, { useEffect } from 'react';
-import { Todo } from '../../types/types';
+import React from 'react';
+import {Priority, Status, Todo} from '../../types/types';
 import TodoItem from '../TodoItem/TodoItem';
-import styles from 'todoList.module.scss'
-import { AppDispatch, RootState } from '../../store/store';
-import { useDispatch, useSelector } from 'react-redux';
-import { editTodo, getTodos, removeTodo } from '../../slices/todoSlice';
+import {NavigationState, TodoState} from "../../slices/todoSlice";
 
-const TodoList: React.FC = () => {
-    const dispatch: AppDispatch = useDispatch();
-    const todos = useSelector((state: RootState) => state.todo.items);
-    const loading = useSelector((state: RootState) => state.todo.loading);
-    const error = useSelector((state: RootState) => state.todo.error);
+interface TodoListProps {
+    todoState: TodoState;
+    onDelete: (id: number) => void;
+}
 
-    useEffect(() => {
-        dispatch(getTodos());
-    }, []);
-
-    const handleDelete = async (id: number) => {
-        dispatch(removeTodo(id));
-    };
-    
-    const handleEdit = async (todo: Todo) => {
-        dispatch(editTodo({ id: todo.id, todo }));
-    };
+const TodoList: React.FC<TodoListProps> = ({ todoState, onDelete }) => {
+    const { items, loading, error, navigation } = todoState;
 
     if (loading) return <div>Loading...</div>;
     if (error) return <div>{error}</div>
 
     return (
-        <div>
-            {todos.length === 0 ? (
+        <div style={{ width: '100%' }}>
+            { navigation === NavigationState.CREATE && (
+                <div>
+                    <TodoItem
+                        todo={{
+                            id: Date.now(), // temporary ID
+                            title: '',
+                            creationDate: '',
+                            dueDate: '',
+                            priority: Priority.DEFAULT,
+                            status: Status.DEFAULT,
+                            description: '',
+                            category: '',
+                            completionDate: '',
+                            tags: []
+                        }}
+                        navigation={navigation}
+                        onDelete={onDelete}
+                        isNew={true}
+                    />
+                </div>
+            )}
+            {items.length === 0 ? (
                 <p>No todos available.</p>
             ) : (
-                todos.map(todo => 
-                    <TodoItem 
-                        key={todo.id} 
-                        todo={todo} 
-                        onDelete={handleDelete} 
-                        onEdit={handleEdit} 
+                items.map((todo: Todo) =>
+                    <TodoItem
+                        key={todo.id}
+                        todo={todo}
+                        navigation={navigation}
+                        onDelete={onDelete}
+                        isNew={false}
                     />
                 )
             )}
