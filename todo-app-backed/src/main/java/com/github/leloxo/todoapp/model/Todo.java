@@ -5,8 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-import java.util.Set;
+import java.sql.Date;
 
 @Entity
 @Data
@@ -20,8 +19,8 @@ public class Todo {
 
     private String title;
     private String description;
-    private LocalDateTime creationDate;
-    private LocalDateTime dueDate;
+    private Date creationDate;
+    private Date dueDate;
 
     @Enumerated(EnumType.STRING)
     private Priority priority;
@@ -29,8 +28,5 @@ public class Todo {
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    private String category;
-    private LocalDateTime completionDate;
-    private Set<String> tags;
-
+    private Date completionDate;
 }
