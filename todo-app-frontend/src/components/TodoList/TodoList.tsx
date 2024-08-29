@@ -2,20 +2,20 @@ import React from 'react';
 import {Priority, Status, Todo} from '../../types/types';
 import TodoItem from '../TodoItem/TodoItem';
 import {NavigationState, TodoState} from "../../slices/todoSlice";
+import styles from './todoList.module.scss'
 
 interface TodoListProps {
     todoState: TodoState;
-    onDelete: (id: number) => void;
 }
 
-const TodoList: React.FC<TodoListProps> = ({ todoState, onDelete }) => {
+const TodoList: React.FC<TodoListProps> = ({ todoState }) => {
     const { items, loading, error, navigation } = todoState;
 
     if (loading) return <div>Loading...</div>;
     if (error) return <div>{error}</div>
 
     return (
-        <div style={{ width: '100%' }}>
+        <div className={styles.todoListContainer}>
             { navigation === NavigationState.CREATE && (
                 <div>
                     <TodoItem
@@ -32,7 +32,6 @@ const TodoList: React.FC<TodoListProps> = ({ todoState, onDelete }) => {
                             tags: []
                         }}
                         navigation={navigation}
-                        onDelete={onDelete}
                         isNew={true}
                     />
                 </div>
@@ -40,12 +39,11 @@ const TodoList: React.FC<TodoListProps> = ({ todoState, onDelete }) => {
             {items.length === 0 ? (
                 <p>No todos available.</p>
             ) : (
-                items.map((todo: Todo) =>
+                items.slice().reverse().map((todo: Todo) =>
                     <TodoItem
                         key={todo.id}
                         todo={todo}
                         navigation={navigation}
-                        onDelete={onDelete}
                         isNew={false}
                     />
                 )
