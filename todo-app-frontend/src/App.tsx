@@ -1,10 +1,11 @@
 import React, {useEffect} from 'react';
 import TodoList from './components/TodoList/TodoList';
-import styles from './app.module.scss'
 import AppHeader from "./components/AppHeader/AppHeader";
+import AppTitle from "./components/AppTitle/AppTitle";
 import {AppDispatch, RootState} from "./store/store";
 import {useDispatch, useSelector} from "react-redux";
-import {getTodos, removeTodo} from "./slices/todoSlice";
+import {getTodos} from "./slices/todoSlice";
+import styles from './app.module.scss'
 
 const App: React.FC = () => {
     const dispatch: AppDispatch = useDispatch();
@@ -14,20 +15,16 @@ const App: React.FC = () => {
         dispatch(getTodos());
     }, [dispatch]);
 
-    const handleDelete = (id: number) => {
-        dispatch(removeTodo(id));
-    };
-
     return (
-        <div>
-            <h1 style={{ textAlign: 'center'}}>TODO LIST</h1>
-
+        <div className='container'>
+            <AppTitle
+                title='Todo App'
+            />
             <div className={styles.appContentWrapper}>
                 <AppHeader />
                 <div className={styles.todoListContainer}>
                     <TodoList
                         todoState={todoState}
-                        onDelete={handleDelete}
                     />
                 </div>
             </div>
