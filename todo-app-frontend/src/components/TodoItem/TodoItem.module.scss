@@ -2,12 +2,14 @@
 
 .todoItem {
     border: 1px solid $black;
-    border-radius: 8px;
-    background-color: $background-2;
-    padding: 16px;
-    margin: 16px 0;
-    width: 100%;
-    box-sizing: border-box;
+    border-radius: 4px;
+    background-color: $background-1;
+    padding: 1rem;
+
+    margin-bottom: 1.5rem;
+    &:last-child {
+        margin-bottom: 0;
+    }
 }
 
 .gridContainer {
