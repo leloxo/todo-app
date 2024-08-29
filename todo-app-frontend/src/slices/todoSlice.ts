@@ -7,6 +7,7 @@ export interface TodoState {
     loading: boolean;
     error: string | null;
     navigation: NavigationState;
+    selectedItemId: number | null;
 }
 
 export enum NavigationState {
@@ -19,7 +20,8 @@ const initialState: TodoState = {
     items: [],
     loading: false,
     error: null,
-    navigation: NavigationState.DEFAULT
+    navigation: NavigationState.DEFAULT,
+    selectedItemId: null,
 };
 
 export const getTodos = createAsyncThunk('todos/getTodos', async () => {
@@ -45,7 +47,10 @@ const todoSlice = createSlice({
     reducers: {
         setNavigationState: (state, action: PayloadAction<NavigationState>) => {
             state.navigation = action.payload;
-        }
+        },
+        setSelectedItemId: (state, action: PayloadAction<number>) => {
+            state.selectedItemId = action.payload;
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -87,6 +92,6 @@ const todoSlice = createSlice({
     },
 });
 
-export const { setNavigationState } = todoSlice.actions;
+export const { setNavigationState, setSelectedItemId } = todoSlice.actions;
 
 export default todoSlice.reducer;
