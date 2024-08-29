@@ -1,0 +1,11 @@
+@use '../../styles/colors' as *;
+
+.appTitle {
+  width: 100%;
+  font-size: 2.5rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  text-align: center;
+  margin: 1.5rem auto 1rem;
+  color: $black;
+}
