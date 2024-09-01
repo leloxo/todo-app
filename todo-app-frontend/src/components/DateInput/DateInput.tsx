@@ -24,15 +24,16 @@ const getYearValue = (value: string): string => {
 }
 
 const DateInput: React.FC<DateInputProps> = ({ displayName, name, value, onChange }) => {
+    const currentYear = parseInt(getYearValue(value), 10);
+    const currentMonth = parseInt(getMonthValue(value), 10);
+
     const daysInMonth = (month: number, year: number) => {
-        return new Date(year, month, 0).getDate(); // Get the last date of the month
+        // Get the last date of the month
+        return new Date(year, month, 0).getDate();
     }
 
     const monthOptions = Array.from({ length: 12 }, (_, i) => `${i + 1}`.padStart(2, '0'));
     const yearOptions = Array.from({ length: 10 }, (_, i) => `${new Date().getFullYear() + i}`);
-
-    const currentYear = parseInt(getYearValue(value), 10);
-    const currentMonth = parseInt(getMonthValue(value), 10);
     const dayOptions = Array.from({ length: daysInMonth(currentMonth, currentYear) }, (_, i) => `${i + 1}`.padStart(2, '0'));
 
     const handleDayChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
