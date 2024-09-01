@@ -9,8 +9,9 @@ const AppHeader: React.FC = () => {
 
     return (
         <div className={styles.headerContainer}>
+            <h1>Tasks</h1>
             <button onClick={() => dispatch(setNavigationState(NavigationState.CREATE))}>
-                Create Todo
+                Add Task
             </button>
         </div>
     );
