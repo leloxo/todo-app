@@ -8,16 +8,15 @@
 	padding: 0;
 }
 body {
-	font-family: 'Poppins', sans-serif;
 	width: 100%;
 	min-height: 100vh;
-	background-color: $background-1;
+	background-color: $background-main;
 }
 .container {
 	width: 90%;
 	max-width: 1200px;
 	margin: 0 auto;
 }
-html {
-	//font-size: 13px;
+* {
+	font-family: 'Poppins', sans-serif;
 }
