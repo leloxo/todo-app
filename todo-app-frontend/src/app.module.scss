@@ -9,8 +9,10 @@
 .todoListContainer {
     display: flex;
     justify-content: center;
-    background-color: $background-3;
+    background-color: $white;
+    border: 1px solid $gray-border;
     padding: 1.5rem;
     border-radius: 4px;
     width: 100%;
+    box-shadow: $shadow-light;
 }
