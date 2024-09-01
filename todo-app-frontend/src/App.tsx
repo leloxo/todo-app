@@ -6,6 +6,8 @@ import {AppDispatch, RootState} from "./store/store";
 import {useDispatch, useSelector} from "react-redux";
 import {getTodos} from "./slices/todoSlice";
 import styles from './app.module.scss'
+import CompletedTodoList from "./components/TodoList/CompletedTodoList";
+import CompletedTodoHeader from "./components/AppHeader/CompletedTodoHeader";
 
 const App: React.FC = () => {
     const dispatch: AppDispatch = useDispatch();
@@ -21,9 +23,15 @@ const App: React.FC = () => {
                 title='Todo App'
             />
             <div className={styles.appContentWrapper}>
-                <AppHeader />
+                <AppHeader/>
                 <div className={styles.todoListContainer}>
                     <TodoList
+                        todoState={todoState}
+                    />
+                </div>
+                <CompletedTodoHeader/>
+                <div className={styles.todoListContainer}>
+                    <CompletedTodoList
                         todoState={todoState}
                     />
                 </div>
