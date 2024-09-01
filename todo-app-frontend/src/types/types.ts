@@ -6,9 +6,7 @@ export interface Todo {
     dueDate: string;
     priority: Priority;
     status: Status;
-    category: string;
     completionDate: string;
-    tags: string[];
 }
 
 export enum Priority {
