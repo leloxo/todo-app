@@ -1,16 +1,13 @@
 import React from 'react';
-import {Priority, Status, Todo} from '../../types/types';
-import TodoItem from '../TodoItem/TodoItem';
-import {NavigationState, TodoState} from "../../slices/todoSlice";
+import {Status, Todo} from '../../types/types';
+import TodoItem, {INITIAL_FORM_VALUES} from '../TodoItem/TodoItem';
+import {NavigationState} from "../../slices/todoSlice";
 import styles from './todoList.module.scss'
-import {convertTimestampToDate} from "../../utils/dateUtils";
+import {RootState} from "../../store/store";
+import {useSelector} from "react-redux";
 
-interface TodoListProps {
-    todoState: TodoState;
-}
-
-const TodoList: React.FC<TodoListProps> = ({ todoState }) => {
-    const { items, loading, error, navigation } = todoState;
+const TodoList: React.FC = () => {
+    const { items, loading, error, navigation } = useSelector((state: RootState) => state.todo);
 
     if (loading) return <div>Loading...</div>;
     if (error) return <div>{error}</div>
@@ -24,23 +21,20 @@ const TodoList: React.FC<TodoListProps> = ({ todoState }) => {
             { navigation === NavigationState.CREATE && (
                 <div style={{ marginBottom: '1.5rem' }}>
                     <TodoItem
-                        todo={{
-                            id: Date.now(), // temporary ID
-                            title: '',
-                            creationDate: '',
-                            dueDate: convertTimestampToDate(Date.now()),
-                            priority: Priority.DEFAULT,
-                            status: Status.DEFAULT,
-                            description: '',
-                            completionDate: '',
-                        }}
+                        todo={INITIAL_FORM_VALUES}
                         navigation={navigation}
                         isNew={true}
                     />
                 </div>
             )}
-            {items.length === 0 ? (
-                <p>No todos available.</p>
+            {getUncompletedTodos().length === 0 ? (
+                <div style={{
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    display: 'flex'
+                }}>
+                    <p>No tasks available...</p>
+                </div>
             ) : (
                 getUncompletedTodos().slice().reverse().map((todo: Todo) =>
                     <TodoItem

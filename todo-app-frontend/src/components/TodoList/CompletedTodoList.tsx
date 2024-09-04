@@ -1,15 +1,12 @@
 import React from 'react';
 import {Status, Todo} from '../../types/types';
 import TodoItem from '../TodoItem/TodoItem';
-import {TodoState} from "../../slices/todoSlice";
 import styles from './todoList.module.scss'
+import {useSelector} from "react-redux";
+import {RootState} from "../../store/store";
 
-interface CompletedTodoListProps {
-    todoState: TodoState;
-}
-
-const CompletedTodoList: React.FC<CompletedTodoListProps> = ({ todoState }) => {
-    const { items, loading, error, navigation } = todoState;
+const CompletedTodoList: React.FC = () => {
+    const { items, loading, error, navigation } = useSelector((state: RootState) => state.todo);
 
     if (loading) return <div>Loading...</div>;
     if (error) return <div>{error}</div>
@@ -20,7 +17,15 @@ const CompletedTodoList: React.FC<CompletedTodoListProps> = ({ todoState }) => {
 
     return (
         <div className={styles.todoListContainer}>
-            {
+            { getCompletedTodos().length === 0 ? (
+                <div style={{
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        display: 'flex'
+                }}>
+                    <p>No tasks completed yet...</p>
+                </div>
+                ) : (
                 getCompletedTodos().slice().reverse().map((todo: Todo) =>
                     <TodoItem
                         key={todo.id}
@@ -29,7 +34,7 @@ const CompletedTodoList: React.FC<CompletedTodoListProps> = ({ todoState }) => {
                         isNew={false}
                     />
                 )
-            }
+            )}
         </div>
     );
 };
