@@ -7,7 +7,7 @@ export const formatDate = (dateString: string): string => {
     const day = String(date.getDate()).padStart(2, '0');
     const year = date.getFullYear();
 
-    return `${month !== 'NaN' ? decodeMonth(convertMonthValueToEnum(month)) : month}/${day}/${year}`;
+    return `${day}/${month !== 'NaN' ? decodeMonth(convertMonthValueToEnum(month)) : month}/${year}`;
 }
 
 export const convertTimestampToDate = (timestamp: number): string => {
