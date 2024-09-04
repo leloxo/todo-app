@@ -1,0 +1,18 @@
+// TODO
+.buttonContainer {
+  display: flex;
+  justify-content: flex-start;
+  gap: 10px;
+
+  button {
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 1rem;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    border-radius: 4px;
+    padding: 1rem;
+  }
+
+}
