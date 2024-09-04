@@ -13,8 +13,8 @@ import {
     setNavigationState,
     setSelectedItemId
 } from "../../slices/todoSlice";
-import ComboBoxInput from "../ComboBoxInput/ComboBoxInput";
-import DateInput from "../DateInput/DateInput";
+import WarnModal from "../WarnModal/WarnModal";
+import TodoForm from "../TodoForm/TodoForm";
 
 interface TodoItemProps {
     todo: Todo;
@@ -22,138 +22,169 @@ interface TodoItemProps {
     isNew: boolean;
 }
 
+export const INITIAL_FORM_VALUES: Todo = {
+    id: Date.now(),
+    title: '',
+    creationDate: '',
+    dueDate: convertTimestampToDate(Date.now()),
+    priority: Priority.DEFAULT,
+    status: Status.DEFAULT,
+    description: '',
+    completionDate: '',
+};
+
 const TodoItem: React.FC<TodoItemProps> = ({ todo, navigation, isNew = false }) => {
     const dispatch: AppDispatch = useDispatch();
-    const [formValues, setFormValues] = useState<Todo>(todo);
     const selectedItemId = useSelector((state: RootState) => state.todo.selectedItemId)
+
+    const [formValues, setFormValues] = useState<Todo>(todo);
+    const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [taskIsCompleted, setTaskIsCompleted] = useState(todo.status === Status.DONE);
+    const [itemIsExpanded, setItemIsExpanded] = useState(false);
 
     useEffect(() => {
         if (todo.status === Status.DONE && !todo.completionDate) {
             updateCompletionDate();
         }
     }, [todo.status, todo.completionDate]);
-    
-    const handleEditButtonClick = (id: number) => {
-        dispatch(setNavigationState(NavigationState.EDIT));
-        dispatch(setSelectedItemId(id));
+
+    const updateCompletionDate = () => {
+        dispatch(editTodo({
+            id: todo.id,
+            todo: { ...todo, completionDate: convertTimestampToDate(Date.now()) },
+        }));
     };
 
-    const handleDeleteButtonClick = (id: number) => {
-        dispatch(removeTodo(id));
+    const handleInputChange = (e: React.ChangeEvent<any>) => {
+        const { name, value } = e.target;
+        setFormValues(prev => ({ ...prev, [name]: value }));
+    };
+
+    const handleSave = () => {
+        // TODO
+        // Check if mandatory values have been filled in
+        if (!formValues.title.trim()) {
+            alert("Title is required");
+            return;
+        }
+
+        if (navigation === NavigationState.CREATE && isNew) {
+            dispatch(addTodo({
+                ...formValues,
+                creationDate: todo.creationDate || (convertTimestampToDate(Date.now())),
+            }));
+        } else if (navigation === NavigationState.EDIT) {
+            dispatch(editTodo({id: todo.id, todo: formValues}));
+        }
+        dispatch(setNavigationState(NavigationState.DEFAULT));
+    };
+
+    const handleCheckButtonClick = () => {
+        const updatedStatus = taskIsCompleted ? Status.IN_PROGRESS : Status.DONE;
+        setTaskIsCompleted(!taskIsCompleted);
+        dispatch(editTodo({
+            id: todo.id,
+            todo: { ...todo, status: updatedStatus },
+        }));
+    };
+
+    const handleEditButtonClick = () => {
+        dispatch(setNavigationState(NavigationState.EDIT));
+        dispatch(setSelectedItemId(todo.id));
+    };
+
+    const handleDeleteButtonClick = () => {
+        dispatch(removeTodo(todo.id));
     };
 
     const handleCancelButtonClick = () => {
         dispatch(setNavigationState(NavigationState.DEFAULT));
     };
 
-    const isCreate = (navigation: NavigationState): boolean => {
-        return navigation === NavigationState.CREATE;
-    };
-
-    const isEdit = (navigation: NavigationState): boolean => {
-        return navigation === NavigationState.EDIT;
-    };
-
-    const handleInputChange = (e: React.ChangeEvent<any>) => {
-        const { name, value } = e.target;
-
-        console.log('handleInputChange');
-        console.log(name, ' ',value);
-
-        setFormValues(prev => ({ ...prev, [name]: value }));
-    };
-
-    const handleSave = () => {
-        if (isCreate(navigation) && isNew) {
-            dispatch(addTodo({
-                ...formValues,
-                creationDate: todo.creationDate || (convertTimestampToDate(Date.now())),
-            }));
-        } else if (isEdit(navigation)) {
-            dispatch(editTodo({id: todo.id, todo: formValues}));
-        }
-        dispatch(setNavigationState(NavigationState.DEFAULT));
-    };
-
-    const updateCompletionDate = () => {
-        const updatedTodo = {
-            ...todo,
-            completionDate: (convertTimestampToDate(Date.now())),
-        };
-        dispatch(editTodo({id: todo.id, todo: updatedTodo}));
+    const toggleItemExpansion = () => {
+        setItemIsExpanded(prev => !prev);
     }
 
+    const getPriorityIconColor = () => {
+        switch (todo.priority) {
+            case 'HIGH':
+                return 'red';
+            case 'MEDIUM':
+                return 'orange';
+            case 'LOW':
+                return 'green';
+            default:
+                return 'white';
+        }
+    };
+
     return (
-        <div className={styles.todoItem}>
-            {(isCreate(navigation) && isNew) || (isEdit(navigation) && selectedItemId === todo.id) ? (
-                // TODO put in TodoForm component
-                <form>
-                    <input
-                        name='title'
-                        placeholder='Title'
-                        value={formValues.title}
-                        onChange={handleInputChange}
-                    />
-                    <textarea
-                        name='description'
-                        placeholder='Description'
-                        value={formValues.description}
-                        onChange={handleInputChange}
-                    />
-                    <div className={styles.gridContainer}>
-                        <p>Creation Date: {formatDate(formValues.creationDate)}</p>
-
-                        <DateInput
-                            displayName='Due Date:'
-                            name='dueDate'
-                            value={formValues.dueDate ? formValues.dueDate : convertTimestampToDate(Date.now())}
-                            onChange={handleInputChange}
-                        />
-                        <ComboBoxInput
-                            displayName='Priority:'
-                            name='priority'
-                            value={formValues.priority}
-                            options={Object.values(Priority)}
-                            decode={decodePriority}
-                            onChange={handleInputChange}
-                        />
-                        <ComboBoxInput
-                            displayName='Status:'
-                            name='status'
-                            value={formValues.status}
-                            options={Object.values(Status)}
-                            decode={decodeStatus}
-                            onChange={handleInputChange}
-                        />
-
-                    </div>
-                    <div className={styles.buttonContainer}>
-                        <button onClick={handleSave}>Save</button>
-                        <button onClick={handleCancelButtonClick}>Cancel</button>
-                    </div>
-                </form>
+        <div className={todo.status === Status.DONE ? styles.todoItemStatusDone : styles.todoItem}>
+            {(navigation === NavigationState.CREATE && isNew) ||
+            (navigation === NavigationState.EDIT && selectedItemId === todo.id) ? (
+                <TodoForm
+                    formValues={formValues}
+                    onInputChange={handleInputChange}
+                    onSave={handleSave}
+                    onCancel={handleCancelButtonClick}
+                />
             ) : (
                 <>
-                    <p className={styles.title}>{todo.title}</p>
-                    <p style={{ paddingBottom: '10px' }}>Description: {todo.description}</p>
-                    <div className={styles.gridContainer}>
-                        <p>Creation Date: {formatDate(todo.creationDate)}</p>
-                        <p>Due Date: {formatDate(todo.dueDate)}</p>
-                        <p>Priority: {decodePriority(todo.priority)}</p>
-                        <p>Status: {decodeStatus(todo.status)}</p>
+                    <div className={styles.todoItemContent}>
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                            <button
+                                className={taskIsCompleted ? styles.checkedButton : styles.uncheckButton}
+                                onClick={handleCheckButtonClick}
+                            />
+                            <p
+                                className={styles.title}
+                                onClick={toggleItemExpansion}
+                                style={{ marginLeft: '1rem', width: '10rem', cursor: 'pointer' }}
+                            >
+                                {todo.title}
+                            </p>
+                        </div>
 
-                        { todo.status === Status.DONE && todo.completionDate &&
-                            <p> completion Date: {formatDate(todo.completionDate)} </p>
-                        }
-                    </div>
+                        <div>
+                            {todo.status !== Status.DONE &&
+                                <p className={styles.todoItemContent}>Deadline: {formatDate(todo.dueDate)}</p>
+                            }
+                            {todo.status === Status.DONE && todo.completionDate &&
+                                <p> completion Date: {formatDate(todo.completionDate)} </p>
+                            }
+                        </div>
 
-                    <div className={styles.buttonContainer}>
-                        <button onClick={() => handleEditButtonClick(todo.id)}>Edit</button>
-                        <button onClick={() => handleDeleteButtonClick(todo.id)}>Delete</button>
+                        <div className={styles.buttonContainer}>
+                            <svg width="30" height="30">
+                                <circle cx="15" cy="15" r="12" fill={getPriorityIconColor()}/>
+                            </svg>
+                            <button
+                                className={styles.editButton}
+                                onClick={() => handleEditButtonClick()}
+                            />
+                            <button
+                                className={styles.deleteButton}
+                                onClick={() => setModalIsOpen(true)}
+                            />
+                        </div>
                     </div>
+                    {itemIsExpanded &&
+                        <div className={styles.additionalInformationContainer}>
+                            <p><strong>Creation Date:</strong> {formatDate(todo.creationDate)}</p>
+                            <p><strong>Priority:</strong> {decodePriority(todo.priority)}</p>
+                            <p><strong>Status:</strong> {decodeStatus(todo.status)}</p>
+                            <p><strong>Description:</strong> {todo.description}</p>
+                        </div>
+                    }
                 </>
             )}
 
+            <WarnModal
+                isOpen={modalIsOpen}
+                message={'Are you sure you want to delete this task?'}
+                onConfirm={() => handleDeleteButtonClick()}
+                onCancel={() => setModalIsOpen(false)}
+            />
         </div>
     );
 };
