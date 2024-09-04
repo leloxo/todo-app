@@ -8,6 +8,7 @@ export interface TodoState {
     error: string | null;
     navigation: NavigationState;
     selectedItemId: number | null;
+    isCompletedTaskContainerExpanded: boolean;
 }
 
 export enum NavigationState {
@@ -22,6 +23,7 @@ const initialState: TodoState = {
     error: null,
     navigation: NavigationState.DEFAULT,
     selectedItemId: null,
+    isCompletedTaskContainerExpanded: true,
 };
 
 export const getTodos = createAsyncThunk('todos/getTodos', async () => {
@@ -50,6 +52,9 @@ const todoSlice = createSlice({
         },
         setSelectedItemId: (state, action: PayloadAction<number>) => {
             state.selectedItemId = action.payload;
+        },
+        setCompletedTaskExpanded: (state, action: PayloadAction<boolean>) => {
+            state.isCompletedTaskContainerExpanded = action.payload;
         },
     },
     extraReducers: (builder) => {
@@ -92,6 +97,6 @@ const todoSlice = createSlice({
     },
 });
 
-export const { setNavigationState, setSelectedItemId } = todoSlice.actions;
+export const { setNavigationState, setSelectedItemId, setCompletedTaskExpanded } = todoSlice.actions;
 
 export default todoSlice.reducer;
