@@ -29,13 +29,13 @@ export const decodePriority = (priority: Priority): string => {
 export const decodeMonth = (month: Month): string => {
     switch (month) {
         case Month.JANUARY:
-            return 'January';
+            return 'Jan';
         case Month.FEBRUARY:
-            return 'February';
+            return 'Feb';
         case Month.MARCH:
-            return 'March';
+            return 'Mar';
         case Month.APRIL:
-            return 'April';
+            return 'Apr';
         case Month.MAY:
             return 'May';
         case Month.JUNE:
@@ -43,15 +43,15 @@ export const decodeMonth = (month: Month): string => {
         case Month.JULY:
             return 'July';
         case Month.AUGUST:
-            return 'August';
+            return 'Aug';
         case Month.SEPTEMBER:
-            return 'September';
+            return 'Sept';
         case Month.OCTOBER:
-            return 'October';
+            return 'Oct';
         case Month.NOVEMBER:
-            return 'November';
+            return 'Nov';
         case Month.DECEMBER:
-            return 'December';
+            return 'Dec';
         default:
             return 'Invalid month';
     }
