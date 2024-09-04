@@ -11,7 +11,7 @@ import CompletedTodoHeader from "./components/AppHeader/CompletedTodoHeader";
 
 const App: React.FC = () => {
     const dispatch: AppDispatch = useDispatch();
-    const todoState = useSelector((state: RootState) => state.todo);
+    const { isCompletedTaskContainerExpanded } = useSelector((state: RootState) => state.todo);
 
     useEffect(() => {
         dispatch(getTodos());
@@ -19,22 +19,18 @@ const App: React.FC = () => {
 
     return (
         <div className='container'>
-            <AppTitle
-                title='Todo App'
-            />
+            <AppTitle title='Todo App' />
             <div className={styles.appContentWrapper}>
-                <AppHeader/>
+                <AppHeader />
                 <div className={styles.todoListContainer}>
-                    <TodoList
-                        todoState={todoState}
-                    />
+                    <TodoList />
                 </div>
-                <CompletedTodoHeader/>
-                <div className={styles.todoListContainer}>
-                    <CompletedTodoList
-                        todoState={todoState}
-                    />
-                </div>
+                <CompletedTodoHeader />
+                {isCompletedTaskContainerExpanded && (
+                    <div className={styles.todoListContainer}>
+                        <CompletedTodoList />
+                    </div>
+                )}
             </div>
         </div>
     );
