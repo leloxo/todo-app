@@ -1,18 +1,72 @@
-// TODO
+@use '../../styles/colors' as *;
+
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+input[type="text"],
+textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid $gray-border;
+  border-radius: 4px;
+  font-size: 16px;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease;
+
+  &:focus {
+    border-color: $black;
+    outline: none;
+  }
+}
+
+textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.inputWarning {
+  background-color: lighten($primary-red, 45%);
+}
+
+.gridContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  align-items: center;
+}
+
 .buttonContainer {
   display: flex;
-  justify-content: flex-start;
-  gap: 10px;
+  justify-content: flex-end;
+  gap: 1rem;
 
   button {
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: 1rem;
+    padding: 10px 20px;
     border: none;
-    background-color: transparent;
-    cursor: pointer;
     border-radius: 4px;
-    padding: 1rem;
-  }
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 
+    &:first-of-type {
+      background-color: $primary-green;
+      color: white;
+    }
+
+    &:last-of-type {
+      background-color: $primary-red;
+      color: white;
+    }
+
+    &:hover {
+      filter: brightness(1.1);
+    }
+
+    &:focus {
+      outline: 2px solid $black;
+      outline-offset: 2px;
+    }
+  }
 }
