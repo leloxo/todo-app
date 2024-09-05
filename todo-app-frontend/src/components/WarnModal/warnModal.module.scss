@@ -21,29 +21,37 @@
   bottom: 0;
 }
 
-.modalButton {
-  padding: .7rem 2rem;
-  border-radius: 5px;
-  border: none;
-  color: $white;
-  cursor: pointer;
-  margin: 0 .5rem;
-}
+.buttonContainer {
+  display: flex;
+  justify-content: center;
 
-.modalButtonYes {
-  @extend .modalButton;
-  background-color: $primary-red;
+  button {
+    padding: .7rem 2rem;
+    border-radius: 5px;
+    border: none;
+    color: $white;
+    cursor: pointer;
+    margin: 0 .5rem;
+    transition: background-color 0.3s ease;
 
-  &:hover {
-    background-color: $red-hover;
+    &:first-of-type {
+      background-color: $primary-red;
+      color: white;
+    }
+
+    &:last-of-type {
+      background-color: $primary-green;
+      color: white;
+    }
+
+    &:hover {
+      filter: brightness(1.1);
+    }
+
+    &:focus {
+      outline: 2px solid $black;
+      outline-offset: 2px;
+    }
   }
 }
 
-.modalButtonCancel {
-  @extend .modalButton;
-  background-color: $primary-green;
-
-  &:hover {
-    background-color: $light-green;
-  }
-}

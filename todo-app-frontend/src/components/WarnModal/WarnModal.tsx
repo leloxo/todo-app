@@ -22,19 +22,9 @@ const WarnModal: React.FC<WarnModalProps> = ({ isOpen, message, onConfirm, onCan
                 <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>
                     {message}
                 </h2>
-                <div style={{ display: 'flex', justifyContent: 'center' }}>
-                    <button
-                        className={styles.modalButtonYes}
-                        onClick={onConfirm}
-                    >
-                        Yes
-                    </button>
-                    <button
-                        className={styles.modalButtonCancel}
-                        onClick={onCancel}
-                    >
-                        No
-                    </button>
+                <div className={styles.buttonContainer}>
+                    <button onClick={onConfirm}>Yes</button>
+                    <button onClick={onCancel}>No</button>
                 </div>
             </Modal>
         </>
