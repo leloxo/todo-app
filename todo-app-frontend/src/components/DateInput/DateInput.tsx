@@ -65,7 +65,7 @@ const DateInput: React.FC<DateInputProps> = ({ displayName, name, value, onChang
 
     return (
         <div className={styles.InputContainer}>
-            { displayName && <p style={{ marginRight: '5px' }}>{displayName}</p> }
+            {displayName && <p>{displayName}</p>}
             <ComboBoxInput
                 name={`${name}_month`}
                 value={getMonthValue(value)}
