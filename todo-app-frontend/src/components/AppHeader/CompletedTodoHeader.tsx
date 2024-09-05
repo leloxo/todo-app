@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './appHeader.module.scss';
-import {setCompletedTaskExpanded} from "../../slices/todoSlice";
+import {setCompletedTaskContainerExpanded} from "../../slices/todoSlice";
 import {AppDispatch, RootState} from "../../store/store";
 import {useDispatch, useSelector} from "react-redux";
 
@@ -9,7 +9,7 @@ const CompletedAppHeader: React.FC = () => {
     const isCompletedTaskContainerExpanded = useSelector((state: RootState) => state.todo.isCompletedTaskContainerExpanded);
 
     const updateExpandedState = () => {
-        dispatch(setCompletedTaskExpanded(!isCompletedTaskContainerExpanded));
+        dispatch(setCompletedTaskContainerExpanded(!isCompletedTaskContainerExpanded));
     }
 
     return (
