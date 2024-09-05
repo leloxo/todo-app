@@ -13,9 +13,15 @@
     cursor: pointer;
     background-color: $primary-green;
     color: $white;
-  }
+    transition: background-color 0.3s ease;
 
-  button:hover {
-    background-color: $light-green;
+    &:hover {
+      filter: brightness(1.1);
+    }
+
+    &:focus {
+      outline: 2px solid $black;
+      outline-offset: 2px;
+    }
   }
 }
