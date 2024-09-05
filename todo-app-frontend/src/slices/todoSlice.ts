@@ -9,6 +9,13 @@ export interface TodoState {
     navigation: NavigationState;
     selectedItemId: number | null;
     isCompletedTaskContainerExpanded: boolean;
+    formFieldErrors: FormFieldError[];
+}
+
+export enum FormFieldError {
+    TITLE_INPUT = 'TITLE_INPUT',
+    PRIORITY_INPUT = 'PRIORITY_INPUT',
+    STATUS_INPUT = 'STATUS_INPUT',
 }
 
 export enum NavigationState {
@@ -24,6 +31,7 @@ const initialState: TodoState = {
     navigation: NavigationState.DEFAULT,
     selectedItemId: null,
     isCompletedTaskContainerExpanded: true,
+    formFieldErrors: [],
 };
 
 export const getTodos = createAsyncThunk('todos/getTodos', async () => {
@@ -53,9 +61,12 @@ const todoSlice = createSlice({
         setSelectedItemId: (state, action: PayloadAction<number>) => {
             state.selectedItemId = action.payload;
         },
-        setCompletedTaskExpanded: (state, action: PayloadAction<boolean>) => {
+        setCompletedTaskContainerExpanded: (state, action: PayloadAction<boolean>) => {
             state.isCompletedTaskContainerExpanded = action.payload;
         },
+        setFormFieldErrors: (state, action: PayloadAction<FormFieldError[]>) => {
+            state.formFieldErrors = action.payload;
+        }
     },
     extraReducers: (builder) => {
         builder
@@ -97,6 +108,6 @@ const todoSlice = createSlice({
     },
 });
 
-export const { setNavigationState, setSelectedItemId, setCompletedTaskExpanded } = todoSlice.actions;
+export const { setNavigationState, setSelectedItemId, setCompletedTaskContainerExpanded, setFormFieldErrors } = todoSlice.actions;
 
 export default todoSlice.reducer;
