@@ -1,4 +1,5 @@
-import React from "react";
+import React from 'react';
+import styles from './comboBoxInput.module.scss';
 
 interface ComboBoxInputProps<T> {
     displayName?: string;
@@ -7,12 +8,13 @@ interface ComboBoxInputProps<T> {
     options: T[];
     decode: (value: T) => string;
     onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+    inputHasError?: boolean;
 }
 
-const ComboBoxInput = <T,>({ displayName, name, value, options, decode, onChange }: ComboBoxInputProps<T>) => {
+const ComboBoxInput = <T,>({ displayName, name, value, options, decode, onChange, inputHasError }: ComboBoxInputProps<T>) => {
     return (
-        <div style={{ display: 'flex', flexDirection: 'row' }}>
-            { displayName && <p style={{ marginRight: '5px' }}>{displayName}</p> }
+        <div className={inputHasError ? styles.inputWarning : styles.ComboBoxInputContainer}>
+            {displayName && <p>{displayName}</p>}
             <select name={name} value={value as string} onChange={onChange}>
                 {options.map(option => (
                     <option key={option as string} value={option as string}>

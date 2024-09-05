@@ -1,0 +1,33 @@
+@use '../../styles/colors' as *;
+
+.ComboBoxInputContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  p {
+    margin-right: 5px;
+    font-weight: bold;
+  }
+
+  select {
+    padding: 5px;
+    font-size: 14px;
+    border: 1px solid $gray-border;
+    border-radius: 4px;
+    background-color: $background-2;
+    outline: none;
+    transition: border-color 0.3s ease;
+
+    &:focus {
+      border-color: $black;
+    }
+  }
+}
+
+.inputWarning {
+  @extend .ComboBoxInputContainer;
+  select {
+    background-color: lighten($primary-red, 45%);
+  }
+}
