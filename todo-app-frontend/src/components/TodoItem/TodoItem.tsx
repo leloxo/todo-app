@@ -8,8 +8,9 @@ import {useDispatch, useSelector} from "react-redux";
 import {
     addTodo,
     editTodo,
+    FormFieldError,
     NavigationState,
-    removeTodo,
+    removeTodo, setFormFieldErrors,
     setNavigationState,
     setSelectedItemId
 } from "../../slices/todoSlice";
@@ -35,7 +36,7 @@ export const INITIAL_FORM_VALUES: Todo = {
 
 const TodoItem: React.FC<TodoItemProps> = ({ todo, navigation, isNew = false }) => {
     const dispatch: AppDispatch = useDispatch();
-    const selectedItemId = useSelector((state: RootState) => state.todo.selectedItemId)
+    const selectedItemId = useSelector((state: RootState) => state.todo.selectedItemId);
 
     const [formValues, setFormValues] = useState<Todo>(todo);
     const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -43,7 +44,7 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, navigation, isNew = false }) 
     const [itemIsExpanded, setItemIsExpanded] = useState(false);
 
     useEffect(() => {
-        if (todo.status === Status.DONE && !todo.completionDate) {
+        if (taskIsCompleted && !todo.completionDate) {
             updateCompletionDate();
         }
     }, [todo.status, todo.completionDate]);
@@ -60,23 +61,41 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, navigation, isNew = false }) 
         setFormValues(prev => ({ ...prev, [name]: value }));
     };
 
-    const handleSave = () => {
-        // TODO
-        // Check if mandatory values have been filled in
+    const isInputValid = ():boolean => {
+        const formFieldErrors: FormFieldError[] = [];
+
         if (!formValues.title.trim()) {
-            alert("Title is required");
-            return;
+            formFieldErrors.push(FormFieldError.TITLE_INPUT);
+        }
+        if (formValues.priority === 'DEFAULT') {
+            formFieldErrors.push(FormFieldError.PRIORITY_INPUT);
+        }
+        if (formValues.status === 'DEFAULT') {
+            formFieldErrors.push(FormFieldError.STATUS_INPUT);
+        }
+        if ((navigation === NavigationState.CREATE && formValues.status === 'DONE')) {
+            formFieldErrors.push(FormFieldError.STATUS_INPUT);
         }
 
-        if (navigation === NavigationState.CREATE && isNew) {
-            dispatch(addTodo({
-                ...formValues,
-                creationDate: todo.creationDate || (convertTimestampToDate(Date.now())),
-            }));
-        } else if (navigation === NavigationState.EDIT) {
-            dispatch(editTodo({id: todo.id, todo: formValues}));
+        if (formFieldErrors.length > 0) {
+            dispatch(setFormFieldErrors(formFieldErrors));
+            return false;
         }
-        dispatch(setNavigationState(NavigationState.DEFAULT));
+        return true;
+    }
+
+    const handleSave = () => {
+        if (isInputValid()) {
+            if (navigation === NavigationState.CREATE && isNew) {
+                dispatch(addTodo({
+                    ...formValues,
+                    creationDate: todo.creationDate || (convertTimestampToDate(Date.now())),
+                }));
+            } else if (navigation === NavigationState.EDIT) {
+                dispatch(editTodo({id: todo.id, todo: formValues}));
+            }
+            dispatch(setNavigationState(NavigationState.DEFAULT));
+        }
     };
 
     const handleCheckButtonClick = () => {
@@ -119,7 +138,7 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, navigation, isNew = false }) 
     };
 
     return (
-        <div className={todo.status === Status.DONE ? styles.todoItemStatusDone : styles.todoItem}>
+        <div className={taskIsCompleted ? styles.todoItemDone : styles.todoItem}>
             {(navigation === NavigationState.CREATE && isNew) ||
             (navigation === NavigationState.EDIT && selectedItemId === todo.id) ? (
                 <TodoForm
@@ -131,37 +150,41 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, navigation, isNew = false }) 
             ) : (
                 <>
                     <div className={styles.todoItemContent}>
-                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                        <div className={styles.todoItemContentElement}>
                             <button
                                 className={taskIsCompleted ? styles.checkedButton : styles.uncheckButton}
                                 onClick={handleCheckButtonClick}
                             />
                             <p
-                                className={styles.title}
+                                style={{ cursor: 'pointer' }}
+                                className={taskIsCompleted ? styles.titleTaskDone : styles.title}
                                 onClick={toggleItemExpansion}
-                                style={{ marginLeft: '1rem', width: '10rem', cursor: 'pointer' }}
                             >
                                 {todo.title}
                             </p>
                         </div>
 
                         <div>
-                            {todo.status !== Status.DONE &&
-                                <p className={styles.todoItemContent}>Deadline: {formatDate(todo.dueDate)}</p>
+                            {!taskIsCompleted &&
+                                <p>Deadline: {formatDate(todo.dueDate)}</p>
                             }
-                            {todo.status === Status.DONE && todo.completionDate &&
-                                <p> completion Date: {formatDate(todo.completionDate)} </p>
+                            {taskIsCompleted && todo.completionDate &&
+                                <p>Completion Date: {formatDate(todo.completionDate)} </p>
                             }
                         </div>
 
                         <div className={styles.buttonContainer}>
-                            <svg width="30" height="30">
-                                <circle cx="15" cy="15" r="12" fill={getPriorityIconColor()}/>
-                            </svg>
-                            <button
-                                className={styles.editButton}
-                                onClick={() => handleEditButtonClick()}
-                            />
+                            {!taskIsCompleted && (
+                                <>
+                                    <svg width="30" height="30">
+                                        <circle cx="15" cy="15" r="12" fill={getPriorityIconColor()}/>
+                                    </svg>
+                                    <button
+                                        className={styles.editButton}
+                                        onClick={() => handleEditButtonClick()}
+                                    />
+                                </>
+                            )}
                             <button
                                 className={styles.deleteButton}
                                 onClick={() => setModalIsOpen(true)}
