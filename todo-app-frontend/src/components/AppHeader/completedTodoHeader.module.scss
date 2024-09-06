@@ -1,0 +1,34 @@
+@use '../../styles/colors' as *;
+
+.headerContainer {
+  display: flex;
+  align-items: center;
+  height: 60px;
+}
+
+.dropdownButton {
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 1.5rem;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  border-radius: 4px;
+  padding: 1rem;
+  margin-left: 5px;
+  width: 3rem;
+
+  &:hover {
+    background-color: $dark-gray-hover;
+  }
+}
+
+.dropdownButtonDown {
+  @extend .dropdownButton;
+  background-image: url('../../assets/images/down-arrow-icon.svg');
+}
+
+.dropdownButtonUp {
+  @extend .dropdownButton;
+  background-image: url('../../assets/images/up-arrow-icon.svg');
+}

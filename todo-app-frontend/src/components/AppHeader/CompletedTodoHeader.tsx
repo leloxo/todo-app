@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './appHeader.module.scss';
+import styles from './completedTodoHeader.module.scss';
 import {setCompletedTaskContainerExpanded} from "../../slices/todoSlice";
 import {AppDispatch, RootState} from "../../store/store";
 import {useDispatch, useSelector} from "react-redux";
@@ -14,9 +14,13 @@ const CompletedAppHeader: React.FC = () => {
 
     return (
         <div className={styles.headerContainer} style={{ marginTop: '1rem' }}>
-            <h1 style={{ cursor: 'pointer' }} onClick={updateExpandedState}>Completed Tasks</h1>
+            <h1>Completed</h1>
+            <button
+                className={isCompletedTaskContainerExpanded ? styles.dropdownButtonUp : styles.dropdownButtonDown}
+                onClick={updateExpandedState}
+            />
         </div>
     );
 };
 
-export default React.memo(CompletedAppHeader);
+export default CompletedAppHeader;
