@@ -156,15 +156,17 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, navigation, isNew = false }) 
                                 onClick={handleCheckButtonClick}
                             />
                             <p
-                                style={{ cursor: 'pointer' }}
                                 className={taskIsCompleted ? styles.titleTaskDone : styles.title}
-                                onClick={toggleItemExpansion}
                             >
                                 {todo.title}
                             </p>
+                            <button
+                                className={itemIsExpanded ? styles.dropdownButtonUp : styles.dropdownButtonDown}
+                                onClick={toggleItemExpansion}
+                            />
                         </div>
 
-                        <div>
+                        <div style={{ marginLeft: '1.3rem'}}>
                             {!taskIsCompleted &&
                                 <p>Deadline: {formatDate(todo.dueDate)}</p>
                             }
@@ -176,7 +178,7 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, navigation, isNew = false }) 
                         <div className={styles.buttonContainer}>
                             {!taskIsCompleted && (
                                 <>
-                                    <svg width="30" height="30">
+                                    <svg width="30" height="30" style={{ marginRight: '.1rem'}}>
                                         <circle cx="15" cy="15" r="12" fill={getPriorityIconColor()}/>
                                     </svg>
                                     <button
@@ -191,14 +193,14 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, navigation, isNew = false }) 
                             />
                         </div>
                     </div>
-                    {itemIsExpanded &&
+                    {itemIsExpanded && (
                         <div className={styles.additionalInformationContainer}>
                             <p><strong>Creation Date:</strong> {formatDate(todo.creationDate)}</p>
                             <p><strong>Priority:</strong> {decodePriority(todo.priority)}</p>
                             <p><strong>Status:</strong> {decodeStatus(todo.status)}</p>
                             <p><strong>Description:</strong> {todo.description}</p>
                         </div>
-                    }
+                    )}
                 </>
             )}
 

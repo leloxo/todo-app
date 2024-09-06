@@ -28,12 +28,15 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    gap: 2rem;
+    width: 100%;
 }
 
 .todoItemContentElement {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 1rem;
 }
 
 .additionalInformationContainer {
@@ -69,7 +72,7 @@
     overflow-wrap: break-word;
     overflow: hidden;
     text-overflow: ellipsis;
-    margin-left: 1rem;
+    margin-right: 1rem;
     width: 10rem;
 }
 
@@ -83,7 +86,7 @@
 .buttonContainer {
     display: flex;
     justify-content: flex-start;
-    gap: 10px;
+    gap: .8rem;
 
     button {
         background-repeat: no-repeat;
@@ -101,7 +104,6 @@
 .editButton {
     @extend button;
     background-image: url('../../assets/images/edit-icon.svg');
-
     &:hover {
         background-color: $dark-gray-hover;
     }
@@ -110,13 +112,12 @@
 .deleteButton {
     @extend button;
     background-image: url('../../assets/images/delete-icon.svg');
-
     &:hover {
         background-color: $red-hover;
     }
 }
 
-.checkButton {
+.iconButton {
     background-repeat: no-repeat;
     background-position: center;
     background-size: 1.3rem;
@@ -125,22 +126,30 @@
     cursor: pointer;
     border-radius: 4px;
     padding: 1rem;
+
+    &:hover {
+        background-color: $dark-gray-hover;
+    }
 }
 
 .uncheckButton {
-    @extend .checkButton;
+    @extend .iconButton;
     background-image: url('../../assets/images/unchecked-icon.svg');
-
-    &:hover {
-        background-color: $dark-gray-hover;
-    }
 }
 
 .checkedButton {
-    @extend .checkButton;
+    @extend .iconButton;
     background-image: url('../../assets/images/checked-icon.svg');
+}
 
-    &:hover {
-        background-color: $dark-gray-hover;
-    }
+.dropdownButtonDown {
+    @extend .iconButton;
+    background-image: url('../../assets/images/down-arrow-icon.svg');
+    margin-right: 1rem;
+}
+
+.dropdownButtonUp {
+    @extend .iconButton;
+    background-image: url('../../assets/images/up-arrow-icon.svg');
+    margin-right: 1rem;
 }
